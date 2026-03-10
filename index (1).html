@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Merhaba Dünya</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --ink: #1a1206;
+      --cream: #f5f0e8;
+      --warm: #e8dcc8;
+      --accent: #c0392b;
+      --gold: #b8860b;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ---- NAV ---- */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      padding: 1.2rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(245,240,232,0.85);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--warm);
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; letter-spacing: .05em;
+      color: var(--accent);
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--ink);
+      font-size: .85rem; letter-spacing: .1em; text-transform: uppercase;
+      font-weight: 500; transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ---- HERO ---- */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 20%, rgba(192,57,43,.07) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 60% at 20% 80%, rgba(184,134,11,.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .eyebrow {
+      font-size: .75rem; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--accent); font-weight: 500; margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp .8s .2s forwards;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: 1.08; font-weight: 700;
+      opacity: 0; animation: fadeUp .9s .4s forwards;
+    }
+    h1 em { color: var(--accent); font-style: italic; }
+    .sub {
+      margin-top: 1.8rem; max-width: 480px;
+      font-size: 1.05rem; font-weight: 300; line-height: 1.7; color: #5a4f3c;
+      opacity: 0; animation: fadeUp .9s .65s forwards;
+    }
+    .cta-group {
+      margin-top: 2.8rem; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+      opacity: 0; animation: fadeUp .9s .85s forwards;
+    }
+    .btn {
+      padding: .85rem 2.2rem; border-radius: 4px;
+      font-family: 'DM Sans', sans-serif; font-size: .9rem;
+      font-weight: 500; letter-spacing: .06em; cursor: pointer;
+      text-decoration: none; transition: all .25s;
+      border: 2px solid var(--accent);
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #a93226; border-color: #a93226; transform: translateY(-2px); }
+    .btn-ghost { background: transparent; color: var(--accent); }
+    .btn-ghost:hover { background: var(--accent); color: #fff; transform: translateY(-2px); }
+
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      font-size: .7rem; letter-spacing: .15em; text-transform: uppercase; color: #9a8e7a;
+      opacity: 0; animation: fadeUp .9s 1.3s forwards;
+    }
+    .scroll-line {
+      width: 1px; height: 48px; background: var(--gold);
+      animation: grow 1.4s 1.8s infinite alternate;
+    }
+
+    /* ---- FEATURES ---- */
+    .features {
+      padding: 7rem 2rem;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .section-label {
+      font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--gold); font-weight: 500; margin-bottom: .8rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;
+      max-width: 500px; margin-bottom: 4rem; line-height: 1.2;
+    }
+    .cards {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .card {
+      background: var(--warm); border-radius: 8px;
+      padding: 2.5rem 2rem; border: 1px solid #ddd3be;
+      transition: transform .3s, box-shadow .3s;
+      position: relative; overflow: hidden;
+    }
+    .card::after {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 3px; height: 0; background: var(--accent);
+      transition: height .35s;
+    }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,.08); }
+    .card:hover::after { height: 100%; }
+    .card-icon { font-size: 2rem; margin-bottom: 1.2rem; }
+    .card h3 {
+      font-family: 'Playfair Display', serif; font-size: 1.25rem;
+      margin-bottom: .7rem; font-weight: 700;
+    }
+    .card p { font-size: .9rem; line-height: 1.7; color: #5a4f3c; font-weight: 300; }
+
+    /* ---- CTA BAND ---- */
+    .band {
+      background: var(--ink); color: var(--cream);
+      padding: 6rem 2rem; text-align: center;
+    }
+    .band h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; margin-bottom: 1.2rem;
+    }
+    .band h2 em { color: var(--gold); font-style: italic; }
+    .band p { font-size: 1rem; font-weight: 300; opacity: .7; margin-bottom: 2.5rem; }
+    .band .btn-primary { background: var(--accent); border-color: var(--accent); }
+    .band .btn-primary:hover { background: #a93226; border-color: #a93226; }
+
+    /* ---- FOOTER ---- */
+    footer {
+      padding: 2.5rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid var(--warm); flex-wrap: wrap; gap: 1rem;
+    }
+    footer p { font-size: .8rem; color: #9a8e7a; }
+    .footer-logo {
+      font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--accent);
+    }
+
+    /* ---- ANIMATIONS ---- */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes grow {
+      from { transform: scaleY(0.4); }
+      to   { transform: scaleY(1); }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">Benim Sitem</div>
+    <ul class="nav-links">
+      <li><a href="#features">Özellikler</a></li>
+      <li><a href="#cta">İletişim</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="eyebrow">Hoş geldiniz</p>
+    <h1>Merhaba,<br>ben <em>buradayım.</em></h1>
+    <p class="sub">Bu basit ama şık bir kişisel site şablonu. İstediğin gibi özelleştirebilirsin.</p>
+    <div class="cta-group">
+      <a href="#features" class="btn btn-primary">Keşfet</a>
+      <a href="#cta" class="btn btn-ghost">İletişim</a>
+    </div>
+    <div class="scroll-hint">
+      <span>Aşağı kaydır</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <p class="section-label">Ne sunuyorum</p>
+    <h2 class="section-title">Basit, hızlı ve etkili.</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">🎨</div>
+        <h3>Tasarım</h3>
+        <p>Temiz ve modern bir görünüm. Göz yormayan renkler ve dengeli bir kompozisyon.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>Hız</h3>
+        <p>Hiç framework yok, saf HTML ve CSS. Her cihazda anında açılır.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📱</div>
+        <h3>Responsive</h3>
+        <p>Telefon, tablet veya masaüstü — her ekran boyutunda mükemmel görünür.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <section class="band" id="cta">
+    <h2>Bir şeyler mi <em>sormak</em> istiyorsun?</h2>
+    <p>Benimle istediğin zaman iletişime geçebilirsin.</p>
+    <a href="mailto:email@ornek.com" class="btn btn-primary">E-posta Gönder</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Benim Sitem</div>
+    <p>© 2026 — Tüm hakları saklıdır.</p>
+  </footer>
+
+</body>
+</html>
